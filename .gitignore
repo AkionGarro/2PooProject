@@ -21,3 +21,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/TecServices/nbproject/private/
+TecServices/build.xml
+TecServices/lib/nblibraries.properties
+TecServices/manifest.mf
+TecServices/nbproject/build-impl.xml
+TecServices/nbproject/genfiles.properties
+TecServices/nbproject/project.properties
+TecServices/nbproject/project.xml
