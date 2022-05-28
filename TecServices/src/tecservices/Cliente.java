@@ -43,4 +43,10 @@ public class Cliente {
         return comprasRealizadas;
     }
 
+    public String getContra() {
+        return contra;
+    }
+    
+    
+
 }

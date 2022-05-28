@@ -41,6 +41,7 @@ public class TecServices extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        home = new javax.swing.JPanel();
         login = new javax.swing.JPanel();
         logoServices = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -69,6 +70,7 @@ public class TecServices extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tec Services App");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         login.setBackground(new java.awt.Color(255, 255, 255));
         login.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -105,7 +107,6 @@ public class TecServices extends javax.swing.JFrame {
         contraLogin.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         contraLogin.setForeground(new java.awt.Color(0, 0, 0));
         contraLogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        contraLogin.setText("jPasswordField1");
         login.add(contraLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 400, 220, -1));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -126,6 +127,11 @@ public class TecServices extends javax.swing.JFrame {
         ingresarBtn.setBackground(new java.awt.Color(255, 255, 255));
         ingresarBtn.setForeground(new java.awt.Color(0, 0, 0));
         ingresarBtn.setText("Ingresar");
+        ingresarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ingresarBtnActionPerformed(evt);
+            }
+        });
         login.add(ingresarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 80, 30));
 
         getContentPane().add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
@@ -270,6 +276,13 @@ public class TecServices extends javax.swing.JFrame {
         this.login.setEnabled(true);
         this.login.setVisible(true);
     }
+
+    private void irHome() {
+        this.home.setEnabled(false);
+        this.home.setVisible(false);
+        this.login.setEnabled(false);
+        this.login.setVisible(false);
+    }
     private void cedulaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cedulaRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cedulaRegistroActionPerformed
@@ -330,6 +343,20 @@ public class TecServices extends javax.swing.JFrame {
         irLogin();
     }//GEN-LAST:event_jLabel11MouseClicked
 
+    private void ingresarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarBtnActionPerformed
+        if (this.cedulaLogin.getText().equals("") || this.contraLogin.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Campos Vacios");
+        } else {
+            if (checkLoginSuccess(this.cedulaLogin.getText(), this.contraLogin.getText()) == true) {
+                irHome();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encuentra el usuario");
+            }
+        }
+
+    }//GEN-LAST:event_ingresarBtnActionPerformed
+
     private void cleanFieldsAndValues() {
         this.cedulaRegistro.setText("");
         this.nombreRegistro.setText("");
@@ -344,6 +371,17 @@ public class TecServices extends javax.swing.JFrame {
 
         for (int i = 0; i < this.clientes.size(); i++) {
             if (this.clientes.get(i).getCedula().equals(cedula)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    private Boolean checkLoginSuccess(String cedula, String password) {
+        Boolean flag = false;
+
+        for (int i = 0; i < this.clientes.size(); i++) {
+            if (this.clientes.get(i).getCedula().equals(cedula) && this.clientes.get(i).getContra().equals(password)) {
                 flag = true;
             }
         }
@@ -391,6 +429,7 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JPasswordField contraLogin;
     private javax.swing.JPasswordField contraRegistro;
     private javax.swing.JTextField dirRegistro;
+    private javax.swing.JPanel home;
     private javax.swing.JButton ingresarBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
