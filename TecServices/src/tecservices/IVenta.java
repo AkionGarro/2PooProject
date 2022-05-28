@@ -1,3 +1,5 @@
+package tecservices;
+
 /**
  * Establece los métodos básicos que debe cumplir toda venta
  * @author Leonardo Víquez Acuña

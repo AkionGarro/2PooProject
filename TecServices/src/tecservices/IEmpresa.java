@@ -1,3 +1,5 @@
+package tecservices;
+
 import java.util.ArrayList;
 
 /**
@@ -7,4 +9,5 @@ import java.util.ArrayList;
 public interface IEmpresa {
     public ArrayList<IProducto> getProductos();
     public void addProducto();
+    public void getInformacion();
 }

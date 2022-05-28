@@ -29,3 +29,5 @@ TecServices/nbproject/build-impl.xml
 TecServices/nbproject/genfiles.properties
 TecServices/nbproject/project.properties
 TecServices/nbproject/project.xml
+/TecServices/build/
+/TecServices/dist/

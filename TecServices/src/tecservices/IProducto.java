@@ -1,3 +1,8 @@
+package tecservices;
+
+
+import tecservices.IEmpresa;
+
 
 /**
  * Establece los métodos necesarios para la integración de productos con las empresas y las ventas respectivas
