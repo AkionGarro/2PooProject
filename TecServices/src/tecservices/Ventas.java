@@ -9,7 +9,8 @@ public class Ventas implements IVenta{
     	private Double montoTotal;
 	private Double montoSinImpuesto;
 	private Double Impuesto;
-	private Double costEnvio;
+	private Double costpEnvio;
+        private String detalleProductos;
         private ArrayList<IProducto> carritoCompras;
 
     @Override

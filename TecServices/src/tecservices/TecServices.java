@@ -5,6 +5,7 @@
 package tecservices;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,20 +17,28 @@ public class TecServices extends javax.swing.JFrame {
     private ArrayList<Cliente> clientes;
     private ArrayList<IEmpresa> empresas;
     private ArrayList<Integer> tempTelefonos;
+    private Cliente usuarioActual;
 
     /**
      * Creates new form TecServices
      */
     public TecServices() {
+
         this.clientes = new ArrayList<Cliente>();
         this.tempTelefonos = new ArrayList<Integer>();
         initComponents();
         configComponentes();
+
+        Empresa e1 = new Empresa();
+        e1.addProducto();
     }
 
     private void configComponentes() {
         this.registro.setEnabled(false);
         this.registro.setVisible(false);
+        this.home.setEnabled(false);
+        this.home.setVisible(false);
+
     }
 
     /**
@@ -42,6 +51,19 @@ public class TecServices extends javax.swing.JFrame {
     private void initComponents() {
 
         home = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList<>();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
         login = new javax.swing.JPanel();
         logoServices = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -70,9 +92,71 @@ public class TecServices extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tec Services App");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        home.setBackground(new java.awt.Color(255, 255, 255));
+        home.setMinimumSize(new java.awt.Dimension(350, 600));
+        home.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jList1.setBackground(new java.awt.Color(255, 255, 255));
+        jList1.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane1.setViewportView(jList1);
+
+        home.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 350, 170));
+
+        jList2.setBackground(new java.awt.Color(255, 255, 255));
+        jList2.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setViewportView(jList2);
+
+        home.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 350, 180));
+
+        jLabel19.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Historial");
+        home.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 120, 30));
+
+        jLabel12.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Productos:");
+        home.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 350, 30));
+
+        jLabel13.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Perfil");
+        home.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 110, 30));
+
+        jLabel17.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Carrito");
+        home.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tecservices/Images/carrito.png"))); // NOI18N
+        home.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
+
+        jLabel15.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Empresas:");
+        home.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 350, 30));
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tecservices/Images/historial.png"))); // NOI18N
+        home.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, 30));
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setText("Agregar Producto");
+        home.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 550, 160, -1));
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tecservices/Images/perfil.png"))); // NOI18N
+        home.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, -1, 30));
+
+        getContentPane().add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
 
         login.setBackground(new java.awt.Color(255, 255, 255));
+        login.setMinimumSize(new java.awt.Dimension(350, 600));
         login.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logoServices.setFont(new java.awt.Font("Roboto", 0, 48)); // NOI18N
@@ -153,7 +237,7 @@ public class TecServices extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Registro");
-        registro.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 230, 80));
+        registro.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 270, 80));
 
         jLabel5.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -278,8 +362,8 @@ public class TecServices extends javax.swing.JFrame {
     }
 
     private void irHome() {
-        this.home.setEnabled(false);
-        this.home.setVisible(false);
+        this.home.setEnabled(true);
+        this.home.setVisible(true);
         this.login.setEnabled(false);
         this.login.setVisible(false);
     }
@@ -383,6 +467,7 @@ public class TecServices extends javax.swing.JFrame {
         for (int i = 0; i < this.clientes.size(); i++) {
             if (this.clientes.get(i).getCedula().equals(cedula) && this.clientes.get(i).getContra().equals(password)) {
                 flag = true;
+                this.usuarioActual = this.clientes.get(i);
             }
         }
         return flag;
@@ -432,9 +517,18 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JPanel home;
     private javax.swing.JButton ingresarBtn;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -443,6 +537,10 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jList2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel login;
     private javax.swing.JLabel logoServices;
     private javax.swing.JTextField nombreRegistro;
