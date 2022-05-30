@@ -32,6 +32,7 @@ public class Empresa implements IEmpresa {
     public void addProducto() {
         Producto p1 = new Producto();
         this.productosEmpresa.add(p1);
+        p1.cleanFields();
 
     }
 

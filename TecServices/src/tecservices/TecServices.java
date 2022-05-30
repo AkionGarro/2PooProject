@@ -6,7 +6,10 @@ package tecservices;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -18,6 +21,8 @@ public class TecServices extends javax.swing.JFrame {
     private ArrayList<IEmpresa> empresas;
     private ArrayList<Integer> tempTelefonos;
     private Cliente usuarioActual;
+    Boolean flag = false;
+    static private TecServices instance = null;
 
     /**
      * Creates new form TecServices
@@ -31,6 +36,17 @@ public class TecServices extends javax.swing.JFrame {
 
         Empresa e1 = new Empresa();
         e1.addProducto();
+      
+
+    }
+
+    static public TecServices getInstance() {
+
+        if (instance == null) {
+            instance = new TecServices();
+        }
+        return instance;
+
     }
 
     private void configComponentes() {
@@ -91,6 +107,7 @@ public class TecServices extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tec Services App");
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         home.setBackground(new java.awt.Color(255, 255, 255));
@@ -334,6 +351,8 @@ public class TecServices extends javax.swing.JFrame {
         registro.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
 
         getContentPane().add(registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
+
+        getAccessibleContext().setAccessibleDescription("JFrameVentana");
 
         pack();
         setLocationRelativeTo(null);
