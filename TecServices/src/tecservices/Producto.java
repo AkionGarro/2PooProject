@@ -4,6 +4,7 @@
  */
 package tecservices;
 
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -28,9 +29,14 @@ public class Producto implements IProducto {
     private IEmpresa empresa;
 
     public Producto() {
-
         setProducto();
+    }
 
+    private Producto(String nombre, String tipo, Double costo, IEmpresa empresa) {
+        this.nombreProducto = nombre;
+        this.tipo = tipo;
+        this.costo = costo;
+        this.empresa = empresa;
     }
 
     @Override
@@ -41,9 +47,11 @@ public class Producto implements IProducto {
 
     @Override
     public IEmpresa getEmpresa() {
-
         return this.empresa;
+    }
 
+    protected void agregarEmpresa(IEmpresa empresa) {
+        this.empresa = empresa;
     }
 
     private void configComponents() {
@@ -130,18 +138,6 @@ public class Producto implements IProducto {
         configComponents();
     }
 
-    private void nombreProductoActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }
-
-    private void tipoProductoActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-    }
-
-    private void costoProductoActionPerformed(java.awt.event.ActionEvent evt) {
-
-    }
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         if (costoProductoField.getText().equals("") || nombreProductoField.getText().equals("") || tipoProductoField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Campos vacios");
@@ -163,15 +159,52 @@ public class Producto implements IProducto {
         tipoProductoField.setText("");
     }
 
+ 
+
     @Override
     public String getDetalles() {
 
-        String detalles = "Nombre Producto: " + this.nombreProducto + "\n"
-                + "Costo: " + this.costo + "\n"
-                + "Tipo: " + this.tipo + "\n";
+        String detalles = "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
+                + "<html>" + "Costo: " + this.costo + "<br/>"
+                + "<html>" + "Tipo: " + this.tipo + "<br/>";
 
         return detalles;
 
+    }
+
+    public static ArrayList<IProducto> generatedProducts(IEmpresa empresa) {
+        ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
+        Producto p1 = new Producto("Hamburguesa", "Comida", 5000d, empresa);
+        Producto p2 = new Producto("Taco", "Comida", 3000d, empresa);
+        Producto p3 = new Producto("Quesadilla", "Comida", 4000d, empresa);
+        Producto p4 = new Producto("Coca cola", "Refresco", 1000d, empresa);
+        Producto p5 = new Producto("Ginger", "Refresco", 1000d, empresa);
+        Producto p6 = new Producto("Pizza", "Comida", 12000d, empresa);
+        Producto p7 = new Producto("Cajeta", "Comida", 1000d, empresa);
+        Producto p8 = new Producto("Helado", "Comida", 2000d, empresa);
+
+        productosIniciales.add(p1);
+        productosIniciales.add(p2);
+        productosIniciales.add(p3);
+        productosIniciales.add(p4);
+        productosIniciales.add(p5);
+        productosIniciales.add(p6);
+        productosIniciales.add(p7);
+        productosIniciales.add(p8);
+
+        return productosIniciales;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
 }

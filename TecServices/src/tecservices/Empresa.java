@@ -41,4 +41,37 @@ public class Empresa implements IEmpresa {
 
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public Integer getTelefono() {
+        return telefono;
+    }
+
+    public ArrayList<IProducto> getProductosEmpresa() {
+        return productosEmpresa;
+    }
+
+    public void setProductosEmpresa(ArrayList<IProducto> productosEmpresa) {
+        this.productosEmpresa = productosEmpresa;
+    }
+
+    public String getDescripcion() {
+        String dsc = "<html>" + "Nombre: " + this.nombre + "<br/>"
+                + "<html>" + "Dirección: " + this.direccion + "<br/>"
+                + "<html>" + "Tipo: " + this.tipo + "<br/>"
+                + "<html>" + "Telefono: " + this.telefono + "<br/>";
+
+        return dsc;
+    }
+
 }

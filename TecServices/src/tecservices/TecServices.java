@@ -4,9 +4,12 @@
  */
 package tecservices;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -22,7 +25,6 @@ public class TecServices extends javax.swing.JFrame {
     private ArrayList<Integer> tempTelefonos;
     private Cliente usuarioActual;
     Boolean flag = false;
-    static private TecServices instance = null;
 
     /**
      * Creates new form TecServices
@@ -31,21 +33,13 @@ public class TecServices extends javax.swing.JFrame {
 
         this.clientes = new ArrayList<Cliente>();
         this.tempTelefonos = new ArrayList<Integer>();
+        this.empresas = new ArrayList<IEmpresa>();
         initComponents();
         configComponentes();
-
         Empresa e1 = new Empresa();
-        e1.addProducto();
-      
-
-    }
-
-    static public TecServices getInstance() {
-
-        if (instance == null) {
-            instance = new TecServices();
-        }
-        return instance;
+        empresas.add(e1);
+        e1.setProductosEmpresa(Producto.generatedProducts(e1));
+        mostrarEmpresas();
 
     }
 
@@ -55,6 +49,29 @@ public class TecServices extends javax.swing.JFrame {
         this.home.setEnabled(false);
         this.home.setVisible(false);
 
+    }
+
+    private void mostrarEmpresas() {
+
+        DefaultListModel model = new DefaultListModel();
+        this.listaEmpresas.setModel(model);
+        listaEmpresas.setFixedCellWidth(80);
+        listaEmpresas.setFixedCellHeight(80);
+
+        for (int i = 0; i < this.empresas.size(); i++) {
+            Empresa e1 = (Empresa) this.empresas.get(i);
+            model.addElement(e1.getDescripcion());
+        }
+    }
+
+    private void mostrarProductos(Integer current) {
+        DefaultListModel model = new DefaultListModel();
+        this.listaProductos.setModel(model);
+        IEmpresa empresa = this.empresas.get(current);
+
+        for (int i = 0; i < empresa.getProductos().size(); i++) {
+            model.addElement(empresa.getProductos().get(i).getDetalles());
+        }
     }
 
     /**
@@ -68,9 +85,9 @@ public class TecServices extends javax.swing.JFrame {
 
         home = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listaEmpresas = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listaProductos = new javax.swing.JList<>();
         jLabel19 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -114,15 +131,21 @@ public class TecServices extends javax.swing.JFrame {
         home.setMinimumSize(new java.awt.Dimension(350, 600));
         home.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jList1.setBackground(new java.awt.Color(255, 255, 255));
-        jList1.setForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane1.setViewportView(jList1);
+        listaEmpresas.setBackground(new java.awt.Color(255, 255, 255));
+        listaEmpresas.setForeground(new java.awt.Color(0, 0, 0));
+        listaEmpresas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaEmpresas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaEmpresasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(listaEmpresas);
 
         home.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 350, 170));
 
-        jList2.setBackground(new java.awt.Color(255, 255, 255));
-        jList2.setForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane2.setViewportView(jList2);
+        listaProductos.setBackground(new java.awt.Color(255, 255, 255));
+        listaProductos.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane2.setViewportView(listaProductos);
 
         home.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 350, 180));
 
@@ -460,6 +483,11 @@ public class TecServices extends javax.swing.JFrame {
 
     }//GEN-LAST:event_ingresarBtnActionPerformed
 
+    private void listaEmpresasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaEmpresasMouseClicked
+        Integer i = this.listaEmpresas.getSelectedIndex();
+        mostrarProductos(i);
+    }//GEN-LAST:event_listaEmpresasMouseClicked
+
     private void cleanFieldsAndValues() {
         this.cedulaRegistro.setText("");
         this.nombreRegistro.setText("");
@@ -556,10 +584,10 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> listaEmpresas;
+    private javax.swing.JList<String> listaProductos;
     private javax.swing.JPanel login;
     private javax.swing.JLabel logoServices;
     private javax.swing.JTextField nombreRegistro;
