@@ -54,6 +54,9 @@ public class Cliente {
     public void AgregarCarrito(IProducto producto) {
         this.carritoCompras.add(producto);
     }
-    
+
+    public ArrayList<IProducto> getCarritoCompras() {
+        return carritoCompras;
+    }
 
 }

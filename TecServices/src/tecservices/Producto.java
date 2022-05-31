@@ -37,6 +37,7 @@ public class Producto implements IProducto {
         this.tipo = tipo;
         this.costo = costo;
         this.empresa = empresa;
+        this.cantidad =0;
     }
 
     @Override
@@ -162,11 +163,18 @@ public class Producto implements IProducto {
     @Override
     public String getDetalles() {
 
-        String detalles = "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
-                + "<html>" + "Costo: " + this.costo + "<br/>"
-                + "<html>" + "Tipo: " + this.tipo + "<br/>";
-
-        return detalles;
+        if (this.cantidad > 0) {
+            String detalles1 = "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
+                    + "<html>" + "Costo: " + this.costo + "<br/>"
+                    + "<html>" + "Tipo: " + this.tipo + "<br/>"
+                    + "<html>" + "Cantidad: " + this.cantidad + "<br/>";
+            return detalles1;
+        } else {
+            String detalles2 = "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
+                    + "<html>" + "Costo: " + this.costo + "<br/>"
+                    + "<html>" + "Tipo: " + this.tipo + "<br/>";
+            return detalles2;
+        }
 
     }
 
@@ -273,5 +281,11 @@ public class Producto implements IProducto {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+    
+    
 
 }
