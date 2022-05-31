@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-
 /**
  *
  * @author garroakion
@@ -24,6 +23,7 @@ public class TecServices extends javax.swing.JFrame {
     private ArrayList<Cliente> clientes;
     private ArrayList<IEmpresa> empresas;
     private ArrayList<String> tempTels;
+    private Cliente admin;
     private Cliente usuarioActual;
     Boolean flag = false;
 
@@ -31,17 +31,12 @@ public class TecServices extends javax.swing.JFrame {
      * Creates new form TecServices
      */
     public TecServices() {
-
+        setAdmin();
         this.clientes = new ArrayList<Cliente>();
-
         this.empresas = new ArrayList<IEmpresa>();
         initComponents();
         configComponentes();
         this.empresas = Empresa.getEmpresasGeneradas();
-        
-
-  
-
         mostrarEmpresas();
 
     }
@@ -51,7 +46,8 @@ public class TecServices extends javax.swing.JFrame {
         this.registro.setVisible(false);
         this.home.setEnabled(false);
         this.home.setVisible(false);
-
+        this.adminPanel.setEnabled(false);
+        this.adminPanel.setVisible(false);
     }
 
     private void mostrarEmpresas() {
@@ -77,6 +73,12 @@ public class TecServices extends javax.swing.JFrame {
         }
     }
 
+    private void setAdmin() {
+        ArrayList<String> telAdmin = new ArrayList<String>();
+        telAdmin.add("85045830");
+        this.admin = new Cliente("Admin", "Admin", "Admin", telAdmin, "Admin");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,6 +88,12 @@ public class TecServices extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        adminPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listaEmpresasAdmin = new javax.swing.JList<>();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        agregarProductoAdmin = new javax.swing.JButton();
         home = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaEmpresas = new javax.swing.JList<>();
@@ -93,13 +101,12 @@ public class TecServices extends javax.swing.JFrame {
         listaProductos = new javax.swing.JList<>();
         jLabel19 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel18 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
         login = new javax.swing.JPanel();
         logoServices = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -130,6 +137,54 @@ public class TecServices extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        adminPanel.setBackground(new java.awt.Color(255, 255, 255));
+        adminPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        listaEmpresasAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        listaEmpresasAdmin.setForeground(new java.awt.Color(0, 0, 0));
+        listaEmpresasAdmin.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaEmpresasAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaEmpresasAdminMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(listaEmpresasAdmin);
+
+        adminPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 350, 170));
+
+        jLabel20.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Empresas:");
+        adminPanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 350, 30));
+
+        jLabel21.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel21.setText("<");
+        jLabel21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel21MouseClicked(evt);
+            }
+        });
+        jLabel21.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jLabel21KeyPressed(evt);
+            }
+        });
+        adminPanel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 40));
+
+        agregarProductoAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        agregarProductoAdmin.setForeground(new java.awt.Color(0, 0, 0));
+        agregarProductoAdmin.setText("Agregar Nuevo Producto");
+        agregarProductoAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarProductoAdminActionPerformed(evt);
+            }
+        });
+        adminPanel.add(agregarProductoAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, -1, -1));
+
+        getContentPane().add(adminPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
+
         home.setBackground(new java.awt.Color(255, 255, 255));
         home.setMinimumSize(new java.awt.Dimension(350, 600));
         home.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -156,7 +211,7 @@ public class TecServices extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Historial");
-        home.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 120, 30));
+        home.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 120, 30));
 
         jLabel12.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
@@ -164,25 +219,14 @@ public class TecServices extends javax.swing.JFrame {
         jLabel12.setText("Productos:");
         home.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 350, 30));
 
-        jLabel13.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Perfil");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
-            }
-        });
-        home.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 110, 30));
-
         jLabel17.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 0, 0));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setText("Carrito");
-        home.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 30));
+        home.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 110, 30));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tecservices/Images/carrito.png"))); // NOI18N
-        home.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
+        home.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 30, 30));
 
         jLabel15.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(0, 0, 0));
@@ -191,15 +235,23 @@ public class TecServices extends javax.swing.JFrame {
         home.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 350, 30));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tecservices/Images/historial.png"))); // NOI18N
-        home.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, 30));
+        home.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, 30));
 
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Agregar Producto");
         home.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 550, 160, -1));
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tecservices/Images/perfil.png"))); // NOI18N
-        home.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, -1, 30));
+        jLabel22.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel22.setText("<");
+        jLabel22.setToolTipText("");
+        jLabel22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel22MouseClicked(evt);
+            }
+        });
+        home.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
 
         getContentPane().add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
 
@@ -228,6 +280,7 @@ public class TecServices extends javax.swing.JFrame {
         cedulaLogin.setBackground(new java.awt.Color(255, 255, 255));
         cedulaLogin.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cedulaLogin.setForeground(new java.awt.Color(0, 0, 0));
+        cedulaLogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         cedulaLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cedulaLoginActionPerformed(evt);
@@ -419,9 +472,27 @@ public class TecServices extends javax.swing.JFrame {
         this.login.setVisible(false);
     }
 
-    private void irUsuarioPerfil() {
-        this.home.setEnabled(false);
-        this.home.setVisible(false);
+
+    private void irAdmin() {
+        this.adminPanel.setEnabled(true);
+        this.adminPanel.setVisible(true);
+        this.login.setEnabled(false);
+        this.login.setVisible(false);
+        mostrarEmpresasAdmin();
+    }
+
+    
+        private void mostrarEmpresasAdmin() {
+
+        DefaultListModel model = new DefaultListModel();
+        this.listaEmpresasAdmin.setModel(model);
+        listaEmpresasAdmin.setFixedCellWidth(80);
+        listaEmpresasAdmin.setFixedCellHeight(80);
+
+        for (int i = 0; i < this.empresas.size(); i++) {
+            Empresa e1 = (Empresa) this.empresas.get(i);
+            model.addElement(e1.getDescripcion());
+        }
     }
 
     private void cedulaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cedulaRegistroActionPerformed
@@ -494,7 +565,11 @@ public class TecServices extends javax.swing.JFrame {
         } else {
             if (checkLoginSuccess(this.cedulaLogin.getText(), this.contraLogin.getText()) == true) {
                 irHome();
+                cleanFields();
 
+            } else if (checkLoginAdmin(this.cedulaLogin.getText(), this.contraLogin.getText()) == true) {
+                irAdmin();
+                cleanFields();
             } else {
                 JOptionPane.showMessageDialog(null, "No se encuentra el usuario");
             }
@@ -502,14 +577,43 @@ public class TecServices extends javax.swing.JFrame {
 
     }//GEN-LAST:event_ingresarBtnActionPerformed
 
+    private void cleanFields() {
+        this.cedulaLogin.setText("");
+        this.contraLogin.setText("");
+    }
     private void listaEmpresasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaEmpresasMouseClicked
         Integer i = this.listaEmpresas.getSelectedIndex();
         mostrarProductos(i);
     }//GEN-LAST:event_listaEmpresasMouseClicked
 
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        irUsuarioPerfil();
-    }//GEN-LAST:event_jLabel13MouseClicked
+    private void listaEmpresasAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaEmpresasAdminMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listaEmpresasAdminMouseClicked
+
+    private void jLabel21KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel21KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel21KeyPressed
+
+    private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
+
+        this.adminPanel.setEnabled(false);
+        this.adminPanel.setVisible(false);
+        this.login.setEnabled(true);
+        this.login.setVisible(true);
+
+    }//GEN-LAST:event_jLabel21MouseClicked
+
+    private void agregarProductoAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarProductoAdminActionPerformed
+        this.empresas.get(listaEmpresasAdmin.getSelectedIndex()).addProducto();
+        
+    }//GEN-LAST:event_agregarProductoAdminActionPerformed
+
+    private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
+        this.home.setEnabled(false);
+        this.home.setVisible(false);
+        this.login.setEnabled(true);
+        this.login.setVisible(true);
+    }//GEN-LAST:event_jLabel22MouseClicked
 
     private void cleanFieldsAndValues() {
         this.cedulaRegistro.setText("");
@@ -517,7 +621,7 @@ public class TecServices extends javax.swing.JFrame {
         this.dirRegistro.setText("");
         this.telefonoRegistro.setText("");
         this.contraRegistro.setText("");
-        //this.tempTels.clear();
+
     }
 
     private Boolean checkUsuarioRegistrado(String cedula) {
@@ -541,6 +645,17 @@ public class TecServices extends javax.swing.JFrame {
 
             }
         }
+        return flag;
+    }
+
+    private Boolean checkLoginAdmin(String cedula, String password) {
+        Boolean flag = false;
+
+        if (this.admin.getCedula().equals(cedula) && this.admin.getContra().equals(password)) {
+            flag = true;
+
+        }
+
         return flag;
     }
 
@@ -580,6 +695,8 @@ public class TecServices extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel adminPanel;
+    private javax.swing.JButton agregarProductoAdmin;
     private javax.swing.JTextField cedulaLogin;
     private javax.swing.JTextField cedulaRegistro;
     private javax.swing.JPasswordField contraLogin;
@@ -593,14 +710,15 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -610,7 +728,9 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList<String> listaEmpresas;
+    private javax.swing.JList<String> listaEmpresasAdmin;
     private javax.swing.JList<String> listaProductos;
     private javax.swing.JPanel login;
     private javax.swing.JLabel logoServices;

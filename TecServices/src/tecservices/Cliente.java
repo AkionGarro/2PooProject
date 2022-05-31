@@ -11,6 +11,7 @@ public class Cliente {
     private ArrayList<String> telefonos;
     private String contra;
     private ArrayList<IVenta> comprasRealizadas;
+    private ArrayList<IProducto> carritoCompras;
 
     public Cliente(String cedula, String nombre, String direccion, ArrayList<String> telefonos, String contra) {
         this.cedula = cedula;
@@ -18,6 +19,8 @@ public class Cliente {
         this.direccion = direccion;
         this.telefonos = telefonos;
         this.contra = contra;
+        this.comprasRealizadas = new ArrayList<IVenta>();
+        this.carritoCompras = new ArrayList<IProducto>();
     }
 
     public String getCedula() {
@@ -48,19 +51,9 @@ public class Cliente {
         return contra;
     }
 
-    public String getDatos() {
-
-
-        String dsc = "Nombre: " + this.nombre + "\n"
-                + "Cedula: " + this.cedula + "\n"
-                + "Direccion: " + this.direccion + "\n";
-        
-        for(int i=0;i<this.telefonos.size();i++){
-            dsc += "Telefono " + (i+1)+ ": " + this.telefonos.get(i) + "\n";
-        }
-                
-
-        return dsc;
+    public void AgregarCarrito(IProducto producto) {
+        this.carritoCompras.add(producto);
     }
+    
 
 }
