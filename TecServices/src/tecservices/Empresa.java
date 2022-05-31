@@ -5,6 +5,7 @@
 package tecservices;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Empresa implements IEmpresa {
 
@@ -20,7 +21,16 @@ public class Empresa implements IEmpresa {
         this.tipo = "Restaurante";
         this.telefono = 24756364;
         productosEmpresa = new ArrayList<IProducto>();
+        productosEmpresa = Producto.generatedProductsComidasRapida(this);
 
+    }
+
+    private Empresa(String nombre, String dir, String tipo, Integer telefono) {
+        this.nombre = nombre;
+        this.direccion = dir;
+        this.tipo = tipo;
+        this.telefono = telefono;
+        productosEmpresa = new ArrayList<IProducto>();
     }
 
     @Override
@@ -72,6 +82,28 @@ public class Empresa implements IEmpresa {
                 + "<html>" + "Telefono: " + this.telefono + "<br/>";
 
         return dsc;
+    }
+
+    public static ArrayList<IEmpresa> getEmpresasGeneradas() {
+        ArrayList<IEmpresa> empresasTemp = new ArrayList<IEmpresa>();
+
+        Empresa e1 = new Empresa("Happy pub", "Santa Clara", "Restaurante", 24606096);
+        Empresa e2 = new Empresa("Talamanca", "Florencia", "Farmacia", 24607080);
+        Empresa e3 = new Empresa("Pali", "Florencia", "Supermercado", 24758596);
+        Empresa e4 = new Empresa("Kenko", "Ciudad Quesada", "Restaurante", 24758522);
+
+        e1.setProductosEmpresa(Producto.generatedProductsComidasRapida(e1));
+        e2.setProductosEmpresa(Producto.generatedProductsFarmacia(e2));
+        e3.setProductosEmpresa(Producto.generatedProductsSupermercado(e3));
+        e4.setProductosEmpresa(Producto.generatedProductsRestaurante(e4));
+
+        empresasTemp.add(e1);
+        empresasTemp.add(e2);
+        empresasTemp.add(e3);
+        empresasTemp.add(e4);
+        
+        
+        return empresasTemp;
     }
 
 }

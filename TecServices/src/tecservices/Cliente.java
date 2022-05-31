@@ -1,17 +1,18 @@
 package tecservices;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Cliente {
 
     private String cedula;
     private String nombre;
     private String direccion;
-    private ArrayList<Integer> telefonos;
+    private ArrayList<String> telefonos;
     private String contra;
     private ArrayList<IVenta> comprasRealizadas;
 
-    public Cliente(String cedula, String nombre, String direccion, ArrayList<Integer> telefonos, String contra) {
+    public Cliente(String cedula, String nombre, String direccion, ArrayList<String> telefonos, String contra) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -31,7 +32,7 @@ public class Cliente {
         return direccion;
     }
 
-    public ArrayList<Integer> getTelefonos() {
+    public ArrayList<String> getTelefonos() {
         return telefonos;
     }
 
@@ -46,7 +47,20 @@ public class Cliente {
     public String getContra() {
         return contra;
     }
-    
-    
+
+    public String getDatos() {
+
+
+        String dsc = "Nombre: " + this.nombre + "\n"
+                + "Cedula: " + this.cedula + "\n"
+                + "Direccion: " + this.direccion + "\n";
+        
+        for(int i=0;i<this.telefonos.size();i++){
+            dsc += "Telefono " + (i+1)+ ": " + this.telefonos.get(i) + "\n";
+        }
+                
+
+        return dsc;
+    }
 
 }

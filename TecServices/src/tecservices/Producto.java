@@ -159,8 +159,6 @@ public class Producto implements IProducto {
         tipoProductoField.setText("");
     }
 
- 
-
     @Override
     public String getDetalles() {
 
@@ -172,7 +170,7 @@ public class Producto implements IProducto {
 
     }
 
-    public static ArrayList<IProducto> generatedProducts(IEmpresa empresa) {
+    public static ArrayList<IProducto> generatedProductsComidasRapida(IEmpresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Hamburguesa", "Comida", 5000d, empresa);
         Producto p2 = new Producto("Taco", "Comida", 3000d, empresa);
@@ -182,6 +180,75 @@ public class Producto implements IProducto {
         Producto p6 = new Producto("Pizza", "Comida", 12000d, empresa);
         Producto p7 = new Producto("Cajeta", "Comida", 1000d, empresa);
         Producto p8 = new Producto("Helado", "Comida", 2000d, empresa);
+
+        productosIniciales.add(p1);
+        productosIniciales.add(p2);
+        productosIniciales.add(p3);
+        productosIniciales.add(p4);
+        productosIniciales.add(p5);
+        productosIniciales.add(p6);
+        productosIniciales.add(p7);
+        productosIniciales.add(p8);
+
+        return productosIniciales;
+    }
+
+    public static ArrayList<IProducto> generatedProductsRestaurante(IEmpresa empresa) {
+        ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
+        Producto p1 = new Producto("Helado Frutas", "Comida", 5000d, empresa);
+        Producto p2 = new Producto("Salchipapa", "Comida", 3000d, empresa);
+        Producto p3 = new Producto("Gordita Camaron", "Comida", 4000d, empresa);
+        Producto p4 = new Producto("Pepsi", "Refresco", 1000d, empresa);
+        Producto p5 = new Producto("Fanta", "Refresco", 1000d, empresa);
+        Producto p6 = new Producto("Arroz con camarones", "Comida", 12000d, empresa);
+        Producto p7 = new Producto("Banana split", "Comida", 1000d, empresa);
+        Producto p8 = new Producto("Crepa", "Comida", 2000d, empresa);
+
+        productosIniciales.add(p1);
+        productosIniciales.add(p2);
+        productosIniciales.add(p3);
+        productosIniciales.add(p4);
+        productosIniciales.add(p5);
+        productosIniciales.add(p6);
+        productosIniciales.add(p7);
+        productosIniciales.add(p8);
+
+        return productosIniciales;
+    }
+
+    public static ArrayList<IProducto> generatedProductsSupermercado(IEmpresa empresa) {
+        ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
+        Producto p1 = new Producto("Jabon", "Limpieza", 5000d, empresa);
+        Producto p2 = new Producto("Shampoo", "Higiene", 3000d, empresa);
+        Producto p3 = new Producto("Arroz", "Comida", 4000d, empresa);
+        Producto p4 = new Producto("Desodorante", "Higiene", 1000d, empresa);
+        Producto p5 = new Producto("Papel", "Higiene", 1000d, empresa);
+        Producto p6 = new Producto("Frijoles", "Comida", 12000d, empresa);
+        Producto p7 = new Producto("Aceite", "Comida", 1000d, empresa);
+        Producto p8 = new Producto("Sal", "Comida", 2000d, empresa);
+
+        productosIniciales.add(p1);
+        productosIniciales.add(p2);
+        productosIniciales.add(p3);
+        productosIniciales.add(p4);
+        productosIniciales.add(p5);
+        productosIniciales.add(p6);
+        productosIniciales.add(p7);
+        productosIniciales.add(p8);
+
+        return productosIniciales;
+    }
+
+    public static ArrayList<IProducto> generatedProductsFarmacia(IEmpresa empresa) {
+        ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
+        Producto p1 = new Producto("Acetaminofen", "Enfermedades", 5000d, empresa);
+        Producto p2 = new Producto("Ibuprofeno", "Enfermedades", 3000d, empresa);
+        Producto p3 = new Producto("Tabcin Dia", "Enfermedades", 4000d, empresa);
+        Producto p4 = new Producto("Curitas", "Accidente", 1000d, empresa);
+        Producto p5 = new Producto("Vendas", "Accidente", 1000d, empresa);
+        Producto p6 = new Producto("Ensure", "Crecimiento", 12000d, empresa);
+        Producto p7 = new Producto("Dexametazona", "Infecciones", 1000d, empresa);
+        Producto p8 = new Producto("Cataflan", "Infecciones", 2000d, empresa);
 
         productosIniciales.add(p1);
         productosIniciales.add(p2);

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+
 /**
  *
  * @author garroakion
@@ -22,7 +23,7 @@ public class TecServices extends javax.swing.JFrame {
 
     private ArrayList<Cliente> clientes;
     private ArrayList<IEmpresa> empresas;
-    private ArrayList<Integer> tempTelefonos;
+    private ArrayList<String> tempTels;
     private Cliente usuarioActual;
     Boolean flag = false;
 
@@ -32,13 +33,15 @@ public class TecServices extends javax.swing.JFrame {
     public TecServices() {
 
         this.clientes = new ArrayList<Cliente>();
-        this.tempTelefonos = new ArrayList<Integer>();
+
         this.empresas = new ArrayList<IEmpresa>();
         initComponents();
         configComponentes();
-        Empresa e1 = new Empresa();
-        empresas.add(e1);
-        e1.setProductosEmpresa(Producto.generatedProducts(e1));
+        this.empresas = Empresa.getEmpresasGeneradas();
+        
+
+  
+
         mostrarEmpresas();
 
     }
@@ -165,6 +168,11 @@ public class TecServices extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Perfil");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
         home.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 110, 30));
 
         jLabel17.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -387,6 +395,7 @@ public class TecServices extends javax.swing.JFrame {
 
     private void registroBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registroBtnActionPerformed
         irRegistro();
+        this.tempTels = new ArrayList<String>();
     }//GEN-LAST:event_registroBtnActionPerformed
 
     private void irRegistro() {
@@ -409,6 +418,12 @@ public class TecServices extends javax.swing.JFrame {
         this.login.setEnabled(false);
         this.login.setVisible(false);
     }
+
+    private void irUsuarioPerfil() {
+        this.home.setEnabled(false);
+        this.home.setVisible(false);
+    }
+
     private void cedulaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cedulaRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cedulaRegistroActionPerformed
@@ -433,21 +448,25 @@ public class TecServices extends javax.swing.JFrame {
             if (checkUsuarioRegistrado(this.cedulaRegistro.getText()) == true) {
                 JOptionPane.showMessageDialog(null, "Usuario ya se encuentra registrado");
             } else {
-                if (this.tempTelefonos.size() > 0) {
+                if (this.tempTels.size() == 0) {
+
+                    JOptionPane.showMessageDialog(null, "Ingrese un numero de teléfono");
+
+                } else {
+
                     String cedTemp = this.cedulaRegistro.getText();
                     String nombTemp = this.nombreRegistro.getText();
                     String dirTemp = this.dirRegistro.getText();
                     String contraTemp = this.contraRegistro.getText();
 
-                    ArrayList<Integer> telTemp = this.tempTelefonos;
+                    ArrayList<String> telTemp = new ArrayList<String>();
+                    telTemp = this.tempTels;
                     Cliente cliente = new Cliente(cedTemp, nombTemp, dirTemp, telTemp, contraTemp);
                     this.clientes.add(cliente);
                     JOptionPane.showMessageDialog(null, "Registrado Satisfactoriamente");
                     cleanFieldsAndValues();
                     irLogin();
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ingrese un numero de teléfono");
+                    this.tempTels.clear();
 
                 }
 
@@ -457,8 +476,8 @@ public class TecServices extends javax.swing.JFrame {
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         if (!this.telefonoRegistro.getText().equals("")) {
-            Integer tel = Integer.parseInt(this.telefonoRegistro.getText());
-            this.tempTelefonos.add(tel);
+            String tel = this.telefonoRegistro.getText();
+            this.tempTels.add(tel);
             JOptionPane.showMessageDialog(null, "Registrado");
         } else {
             JOptionPane.showMessageDialog(null, "Digite un numero de telefono");
@@ -488,13 +507,17 @@ public class TecServices extends javax.swing.JFrame {
         mostrarProductos(i);
     }//GEN-LAST:event_listaEmpresasMouseClicked
 
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        irUsuarioPerfil();
+    }//GEN-LAST:event_jLabel13MouseClicked
+
     private void cleanFieldsAndValues() {
         this.cedulaRegistro.setText("");
         this.nombreRegistro.setText("");
         this.dirRegistro.setText("");
         this.telefonoRegistro.setText("");
         this.contraRegistro.setText("");
-        this.tempTelefonos.clear();
+        //this.tempTels.clear();
     }
 
     private Boolean checkUsuarioRegistrado(String cedula) {
@@ -515,6 +538,7 @@ public class TecServices extends javax.swing.JFrame {
             if (this.clientes.get(i).getCedula().equals(cedula) && this.clientes.get(i).getContra().equals(password)) {
                 flag = true;
                 this.usuarioActual = this.clientes.get(i);
+
             }
         }
         return flag;
