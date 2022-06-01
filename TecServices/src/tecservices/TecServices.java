@@ -25,10 +25,11 @@ public class TecServices extends javax.swing.JFrame {
     private ArrayList<String> tempTels;
     private Cliente admin;
     private Cliente usuarioActual;
+    private Ventas ventaTemp;
     Boolean flag = false;
 
     /**
-     * Creates new form TecServices
+     * Constructor de la clase
      */
     public TecServices() {
 
@@ -43,13 +44,25 @@ public class TecServices extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Usuario de prueba para el ingreso directo Admin y Usuario Normal
+     */
     private void SetAkionUser() {
         ArrayList<String> telefonos = new ArrayList<String>();
-        telefonos.add("8504830");
-        Cliente akion = new Cliente("208080018", "Akion", "San Juan", telefonos, "2908");
+        telefonos.add("12345678");
+        Cliente akion = new Cliente("1234", "Akion", "San Juan", telefonos, "1234");
         clientes.add(akion);
     }
 
+    private void setAdmin() {
+        ArrayList<String> telAdmin = new ArrayList<String>();
+        telAdmin.add("85045830");
+        this.admin = new Cliente("Admin", "Admin", "Admin", telAdmin, "Admin");
+    }
+
+    /**
+     * Configuracion de componentes gráficos
+     */
     private void configComponentes() {
         this.registro.setEnabled(false);
         this.registro.setVisible(false);
@@ -59,10 +72,19 @@ public class TecServices extends javax.swing.JFrame {
         this.adminPanel.setVisible(false);
         this.carritoUsuario.setEnabled(false);
         this.carritoUsuario.setVisible(false);
+        this.historialCompras.setVisible(false);
+        this.historialCompras.setEnabled(false);
     }
 
+    /**
+     * ------------------------------------------Utilidades------------------------------------
+     * ----------------------------------------------------------------------------------------
+     * ----------------------------------------------------------------------------------------
+     */
+    /**
+     * Mostrar todas las empresas disponibles, de manera grafica.
+     */
     private void mostrarEmpresas() {
-
         DefaultListModel model = new DefaultListModel();
         this.listaEmpresas.setModel(model);
         listaEmpresas.setFixedCellWidth(80);
@@ -74,6 +96,9 @@ public class TecServices extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Mostrar todas los productos disponibles de una empresa.
+     */
     private void mostrarProductos(Integer current) {
         DefaultListModel model = new DefaultListModel();
         this.listaProductos.setModel(model);
@@ -84,10 +109,160 @@ public class TecServices extends javax.swing.JFrame {
         }
     }
 
-    private void setAdmin() {
-        ArrayList<String> telAdmin = new ArrayList<String>();
-        telAdmin.add("85045830");
-        this.admin = new Cliente("Admin", "Admin", "Admin", telAdmin, "Admin");
+    /**
+     * Agrega a la lista de empresas de la parte de admin
+     */
+    private void mostrarEmpresasAdmin() {
+        DefaultListModel model = new DefaultListModel();
+        this.listaEmpresasAdmin.setModel(model);
+        listaEmpresasAdmin.setFixedCellWidth(80);
+        listaEmpresasAdmin.setFixedCellHeight(80);
+
+        for (int i = 0; i < this.empresas.size(); i++) {
+            Empresa e1 = (Empresa) this.empresas.get(i);
+            model.addElement(e1.getDescripcion());
+        }
+    }
+
+    /**
+     * Utilidad para desplazarse a Registro
+     */
+    private void irRegistro() {
+        this.registro.setEnabled(true);
+        this.registro.setVisible(true);
+        this.login.setEnabled(false);
+        this.login.setVisible(false);
+    }
+
+    /**
+     * Utilidad para desplazarse a Login
+     */
+    private void irLogin() {
+        this.registro.setEnabled(false);
+        this.registro.setVisible(false);
+        this.login.setEnabled(true);
+        this.login.setVisible(true);
+    }
+
+    /**
+     * Utilidad para desplazarse a Home
+     */
+    private void irHome() {
+        this.home.setEnabled(true);
+        this.home.setVisible(true);
+        this.login.setEnabled(false);
+        this.login.setVisible(false);
+    }
+
+    /**
+     * Utilidad para desplazarse a Admin
+     */
+    private void irAdmin() {
+        this.adminPanel.setEnabled(true);
+        this.adminPanel.setVisible(true);
+        this.login.setEnabled(false);
+        this.login.setVisible(false);
+        mostrarEmpresasAdmin();
+    }
+
+    /**
+     * Limpia los campos de la parte del login
+     */
+    private void cleanFields() {
+        this.cedulaLogin.setText("");
+        this.contraLogin.setText("");
+    }
+
+    /**
+     * Muestra los productos que se van agregando al carrito Muestra los
+     * detalles y de la venta con sus montos.
+     */
+    private void mostrarProductosCarrito() {
+        this.ventaTemp = new Ventas();
+        DefaultListModel model = new DefaultListModel();
+        this.carritoProductos.setModel(model);
+        Double montoSinImpuestos = 0d;
+        for (int i = 0; i < this.usuarioActual.getCarritoCompras().size(); i++) {
+            Producto p1 = (Producto) this.usuarioActual.getCarritoCompras().get(i);
+            montoSinImpuestos += p1.getCosto() * p1.getCantidad();
+            model.addElement(this.usuarioActual.getCarritoCompras().get(i).getDetalles());
+        }
+        ventaTemp.setCarritoCompras(this.usuarioActual.getCarritoCompras());
+        ventaTemp.setMontoSinImpuesto(montoSinImpuestos);
+        ventaTemp.setImpuesto(0.13d);
+        ventaTemp.setCostpEnvio(1000d);
+        Double montoTotal = (ventaTemp.getMontoSinImpuesto() * ventaTemp.getImpuesto()) + (ventaTemp.getMontoSinImpuesto()) + ventaTemp.getCostpEnvio();
+        ventaTemp.setMontoTotal(montoTotal);
+
+        String detalles = "Monto Sin Impuesto: " + ventaTemp.getMontoSinImpuesto() + "\n"
+                + "Impuesto: " + ventaTemp.getImpuesto() + "\n"
+                + "Costo Envio: " + ventaTemp.getCostpEnvio() + "\n"
+                + "Monto total: " + ventaTemp.getMontoTotal() + "\n";
+
+        this.detallesCompra.setText(detalles);
+
+    }
+
+    /**
+     * Limpia los campos del registro
+     */
+    private void cleanFieldsAndValues() {
+        this.cedulaRegistro.setText("");
+        this.nombreRegistro.setText("");
+        this.dirRegistro.setText("");
+        this.telefonoRegistro.setText("");
+        this.contraRegistro.setText("");
+
+    }
+
+    /**
+     * Compara si la cedula ya existe.
+     *
+     * @param cedula
+     * @return Si existe o no
+     */
+    private Boolean checkUsuarioRegistrado(String cedula) {
+        Boolean flag = false;
+        for (int i = 0; i < this.clientes.size(); i++) {
+            if (this.clientes.get(i).getCedula().equals(cedula)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * Compara si corresponden los datos con los usuarios existentes
+     *
+     * @param cedula
+     * @param password
+     * @return
+     */
+    private Boolean checkLoginSuccess(String cedula, String password) {
+        Boolean flag = false;
+        for (int i = 0; i < this.clientes.size(); i++) {
+            if (this.clientes.get(i).getCedula().equals(cedula) && this.clientes.get(i).getContra().equals(password)) {
+                flag = true;
+                this.usuarioActual = this.clientes.get(i);
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * Compara si corresponde a los credenciales del admin
+     *
+     * @param cedula
+     * @param password
+     * @return
+     */
+    private Boolean checkLoginAdmin(String cedula, String password) {
+        Boolean flag = false;
+
+        if (this.admin.getCedula().equals(cedula) && this.admin.getContra().equals(password)) {
+            flag = true;
+        }
+        return flag;
     }
 
     /**
@@ -99,16 +274,6 @@ public class TecServices extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        carritoUsuario = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        carritoProductos = new javax.swing.JList<>();
-        jLabel13 = new javax.swing.JLabel();
-        facturarButton = new javax.swing.JButton();
-        jLabel18 = new javax.swing.JLabel();
-        eliminarProducto = new javax.swing.JButton();
-        jLabel23 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        detallesCompra = new javax.swing.JTextArea();
         home = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaEmpresas = new javax.swing.JList<>();
@@ -122,6 +287,25 @@ public class TecServices extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
+        carritoUsuario = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        carritoProductos = new javax.swing.JList<>();
+        jLabel13 = new javax.swing.JLabel();
+        facturarButton = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        eliminarProducto = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        detallesCompra = new javax.swing.JTextArea();
+        historialCompras = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        detallesCompraRealizadas = new javax.swing.JList<>();
+        jLabel26 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        comprasRealizadas = new javax.swing.JList<>();
+        compraButton = new javax.swing.JButton();
         adminPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listaEmpresasAdmin = new javax.swing.JList<>();
@@ -157,63 +341,6 @@ public class TecServices extends javax.swing.JFrame {
         setTitle("Tec Services App");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        carritoUsuario.setBackground(new java.awt.Color(255, 255, 255));
-        carritoUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        carritoProductos.setBackground(new java.awt.Color(255, 255, 255));
-        carritoProductos.setForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane4.setViewportView(carritoProductos);
-
-        carritoUsuario.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 290));
-
-        jLabel13.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Precio de los servicios:");
-        carritoUsuario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 350, 30));
-
-        facturarButton.setText("Pagar");
-        facturarButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                facturarButtonMouseClicked(evt);
-            }
-        });
-        carritoUsuario.add(facturarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 570, 350, -1));
-
-        jLabel18.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel18.setText("<");
-        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel18MouseClicked(evt);
-            }
-        });
-        carritoUsuario.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
-
-        eliminarProducto.setText("Eliminar");
-        eliminarProducto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarProductoActionPerformed(evt);
-            }
-        });
-        carritoUsuario.add(eliminarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 120, -1));
-
-        jLabel23.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel23.setText("Productos:");
-        carritoUsuario.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 350, 30));
-
-        detallesCompra.setBackground(new java.awt.Color(255, 255, 255));
-        detallesCompra.setColumns(20);
-        detallesCompra.setForeground(new java.awt.Color(0, 0, 0));
-        detallesCompra.setRows(5);
-        jScrollPane5.setViewportView(detallesCompra);
-
-        carritoUsuario.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 330, 140));
-
-        getContentPane().add(carritoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
 
         home.setBackground(new java.awt.Color(255, 255, 255));
         home.setMinimumSize(new java.awt.Dimension(350, 600));
@@ -304,6 +431,121 @@ public class TecServices extends javax.swing.JFrame {
         home.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
 
         getContentPane().add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
+
+        carritoUsuario.setBackground(new java.awt.Color(255, 255, 255));
+        carritoUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        carritoProductos.setBackground(new java.awt.Color(255, 255, 255));
+        carritoProductos.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane4.setViewportView(carritoProductos);
+
+        carritoUsuario.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 290));
+
+        jLabel13.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Precio de los servicios:");
+        carritoUsuario.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 350, 30));
+
+        facturarButton.setText("Pagar");
+        facturarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                facturarButtonMouseClicked(evt);
+            }
+        });
+        carritoUsuario.add(facturarButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 570, 350, -1));
+
+        jLabel18.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel18.setText("<");
+        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel18MouseClicked(evt);
+            }
+        });
+        carritoUsuario.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
+
+        eliminarProducto.setText("Eliminar");
+        eliminarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarProductoActionPerformed(evt);
+            }
+        });
+        carritoUsuario.add(eliminarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, 120, -1));
+
+        jLabel23.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Productos:");
+        carritoUsuario.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 350, 30));
+
+        detallesCompra.setEditable(false);
+        detallesCompra.setBackground(new java.awt.Color(255, 255, 255));
+        detallesCompra.setColumns(20);
+        detallesCompra.setForeground(new java.awt.Color(0, 0, 0));
+        detallesCompra.setRows(5);
+        jScrollPane5.setViewportView(detallesCompra);
+
+        carritoUsuario.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 330, 140));
+
+        getContentPane().add(carritoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 600));
+
+        historialCompras.setBackground(new java.awt.Color(255, 255, 255));
+        historialCompras.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel24.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("Detalles de la compra:");
+        historialCompras.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 350, 30));
+
+        jLabel25.setFont(new java.awt.Font("sansserif", 0, 36)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel25.setText("<");
+        jLabel25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel25MouseClicked(evt);
+            }
+        });
+        historialCompras.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
+
+        detallesCompraRealizadas.setBackground(new java.awt.Color(255, 255, 255));
+        detallesCompraRealizadas.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane6.setViewportView(detallesCompraRealizadas);
+
+        historialCompras.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 310, 230));
+
+        jLabel26.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setText("Compras Realizadas:");
+        historialCompras.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 350, 30));
+
+        comprasRealizadas.setBackground(new java.awt.Color(255, 255, 255));
+        comprasRealizadas.setForeground(new java.awt.Color(0, 0, 0));
+        comprasRealizadas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comprasRealizadasMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(comprasRealizadas);
+
+        historialCompras.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 230));
+
+        compraButton.setText("Mostrar Detalles Compra");
+        compraButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                compraButtonMouseClicked(evt);
+            }
+        });
+        compraButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compraButtonActionPerformed(evt);
+            }
+        });
+        historialCompras.add(compraButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 590, -1, -1));
+
+        getContentPane().add(historialCompras, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         adminPanel.setBackground(new java.awt.Color(255, 255, 255));
         adminPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -549,48 +791,6 @@ public class TecServices extends javax.swing.JFrame {
         this.tempTels = new ArrayList<String>();
     }//GEN-LAST:event_registroBtnActionPerformed
 
-    private void irRegistro() {
-        this.registro.setEnabled(true);
-        this.registro.setVisible(true);
-        this.login.setEnabled(false);
-        this.login.setVisible(false);
-    }
-
-    private void irLogin() {
-        this.registro.setEnabled(false);
-        this.registro.setVisible(false);
-        this.login.setEnabled(true);
-        this.login.setVisible(true);
-    }
-
-    private void irHome() {
-        this.home.setEnabled(true);
-        this.home.setVisible(true);
-        this.login.setEnabled(false);
-        this.login.setVisible(false);
-    }
-
-    private void irAdmin() {
-        this.adminPanel.setEnabled(true);
-        this.adminPanel.setVisible(true);
-        this.login.setEnabled(false);
-        this.login.setVisible(false);
-        mostrarEmpresasAdmin();
-    }
-
-    private void mostrarEmpresasAdmin() {
-
-        DefaultListModel model = new DefaultListModel();
-        this.listaEmpresasAdmin.setModel(model);
-        listaEmpresasAdmin.setFixedCellWidth(80);
-        listaEmpresasAdmin.setFixedCellHeight(80);
-
-        for (int i = 0; i < this.empresas.size(); i++) {
-            Empresa e1 = (Empresa) this.empresas.get(i);
-            model.addElement(e1.getDescripcion());
-        }
-    }
-
     private void cedulaRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cedulaRegistroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cedulaRegistroActionPerformed
@@ -616,16 +816,13 @@ public class TecServices extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usuario ya se encuentra registrado");
             } else {
                 if (this.tempTels.size() == 0) {
-
                     JOptionPane.showMessageDialog(null, "Ingrese un numero de teléfono");
-
                 } else {
 
                     String cedTemp = this.cedulaRegistro.getText();
                     String nombTemp = this.nombreRegistro.getText();
                     String dirTemp = this.dirRegistro.getText();
                     String contraTemp = this.contraRegistro.getText();
-
                     ArrayList<String> telTemp = new ArrayList<String>();
                     telTemp = this.tempTels;
                     Cliente cliente = new Cliente(cedTemp, nombTemp, dirTemp, telTemp, contraTemp);
@@ -634,9 +831,7 @@ public class TecServices extends javax.swing.JFrame {
                     cleanFieldsAndValues();
                     irLogin();
                     this.tempTels.clear();
-
                 }
-
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -673,10 +868,7 @@ public class TecServices extends javax.swing.JFrame {
 
     }//GEN-LAST:event_ingresarBtnActionPerformed
 
-    private void cleanFields() {
-        this.cedulaLogin.setText("");
-        this.contraLogin.setText("");
-    }
+
     private void listaEmpresasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaEmpresasMouseClicked
         Integer i = this.listaEmpresas.getSelectedIndex();
         mostrarProductos(i);
@@ -691,17 +883,14 @@ public class TecServices extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel21KeyPressed
 
     private void jLabel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel21MouseClicked
-
         this.adminPanel.setEnabled(false);
         this.adminPanel.setVisible(false);
         this.login.setEnabled(true);
         this.login.setVisible(true);
-
     }//GEN-LAST:event_jLabel21MouseClicked
 
     private void agregarProductoAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarProductoAdminActionPerformed
         this.empresas.get(listaEmpresasAdmin.getSelectedIndex()).addProducto();
-
     }//GEN-LAST:event_agregarProductoAdminActionPerformed
 
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
@@ -713,7 +902,7 @@ public class TecServices extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         IEmpresa empTemp = this.empresas.get(this.listaEmpresas.getSelectedIndex());
-        Producto productTemp = (Producto)empTemp.getProductos().get(this.listaProductos.getSelectedIndex());
+        Producto productTemp = (Producto) empTemp.getProductos().get(this.listaProductos.getSelectedIndex());
         Integer cantTemp = Integer.parseInt(JOptionPane.showInputDialog("¿Digite la cantidad que desea agregar?"));
         productTemp.setCantidad(cantTemp);
         this.usuarioActual.AgregarCarrito(productTemp);
@@ -736,19 +925,24 @@ public class TecServices extends javax.swing.JFrame {
         this.home.setVisible(false);
         this.home.setVisible(false);
         mostrarProductosCarrito();
-
-
     }//GEN-LAST:event_jLabel17MouseClicked
 
     private void facturarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_facturarButtonMouseClicked
-        Ventas ventaTemp = new Ventas();
-        ventaTemp.setCarritoCompras(this.usuarioActual.getCarritoCompras());
 
+        this.usuarioActual.addComprasRealizada(this.ventaTemp);
+        this.usuarioActual.clearCarrito();
+        JOptionPane.showMessageDialog(null, "Registrado correctamente");
+        mostrarProductosCarrito();
 
     }//GEN-LAST:event_facturarButtonMouseClicked
 
     private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
-
+        this.historialCompras.setVisible(true);
+        this.historialCompras.setEnabled(true);
+        this.home.setVisible(false);
+        this.home.setVisible(false);
+        this.usuarioActual.getComprasRealizadas();
+        mostrarCompras();
 
     }//GEN-LAST:event_jLabel19MouseClicked
 
@@ -760,75 +954,56 @@ public class TecServices extends javax.swing.JFrame {
         mostrarProductosCarrito();
     }//GEN-LAST:event_eliminarProductoActionPerformed
 
-    private void mostrarProductosCarrito() {
-        Ventas venta = new Ventas();
+    private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
+        this.historialCompras.setVisible(false);
+        this.historialCompras.setEnabled(false);
+        this.home.setVisible(true);
+        this.home.setVisible(true);
+
+    }//GEN-LAST:event_jLabel25MouseClicked
+
+    private void comprasRealizadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comprasRealizadasMouseClicked
+        int current = this.comprasRealizadas.getSelectedIndex();
+        mostrarDetallesCompra(current);
+
+    }//GEN-LAST:event_comprasRealizadasMouseClicked
+
+    private void compraButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_compraButtonActionPerformed
+
+    private void compraButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compraButtonMouseClicked
+        int current = this.comprasRealizadas.getSelectedIndex();
+        mostrarDetallesCompra(current);
+    }//GEN-LAST:event_compraButtonMouseClicked
+
+    private void mostrarCompras() {
         DefaultListModel model = new DefaultListModel();
-        this.carritoProductos.setModel(model);
-        Double montoSinImpuestos = 0d;
-        for (int i = 0; i < this.usuarioActual.getCarritoCompras().size(); i++) {
-            Producto p1 = (Producto)this.usuarioActual.getCarritoCompras().get(i);
-            montoSinImpuestos += p1.getCosto()*p1.getCantidad();
-            model.addElement(this.usuarioActual.getCarritoCompras().get(i).getDetalles());
+        this.comprasRealizadas.setModel(model);
+        comprasRealizadas.setFixedCellWidth(80);
+        comprasRealizadas.setFixedCellHeight(80);
+
+        for (int i = 0; i < this.usuarioActual.getComprasRealizadas().size(); i++) {
+
+            Ventas v = new Ventas();
+            v = (Ventas) this.usuarioActual.getComprasRealizadas().get(i);
+            model.addElement(v.obtenerInformacionCompras());
         }
-        venta.setCarritoCompras(this.usuarioActual.getCarritoCompras());
-        venta.setMontoSinImpuesto(montoSinImpuestos);
-        venta.setImpuesto(0.13d);
-        venta.setCostpEnvio(1000d);
-        Double montoTotal = (venta.getMontoSinImpuesto() * venta.getImpuesto()) + (venta.getMontoSinImpuesto()) + venta.getCostpEnvio();
-        venta.setMontoTotal(montoTotal);
-
-        String detalles = "Monto Sin Impuesto: " + venta.getMontoSinImpuesto() + "\n"
-                + "Impuesto: " + venta.getImpuesto() + "\n"
-                + "Costo Envio: " + venta.getCostpEnvio() + "\n"
-                + "Monto total: " + venta.getMontoTotal() + "\n";
-        
-        this.detallesCompra.setText(detalles);
-      
-
     }
 
-    private void cleanFieldsAndValues() {
-        this.cedulaRegistro.setText("");
-        this.nombreRegistro.setText("");
-        this.dirRegistro.setText("");
-        this.telefonoRegistro.setText("");
-        this.contraRegistro.setText("");
+    private void mostrarDetallesCompra(int current) {
+        DefaultListModel model = new DefaultListModel();
+        this.detallesCompraRealizadas.setModel(model);
+        this.detallesCompraRealizadas.setFixedCellWidth(80);
+        this.detallesCompraRealizadas.setFixedCellHeight(80);
 
-    }
+        Ventas temp = (Ventas) this.usuarioActual.getComprasRealizadas().get(current);
 
-    private Boolean checkUsuarioRegistrado(String cedula) {
-        Boolean flag = false;
-
-        for (int i = 0; i < this.clientes.size(); i++) {
-            if (this.clientes.get(i).getCedula().equals(cedula)) {
-                flag = true;
-            }
+        for (int i = 0; i < temp.getCarritoCompras().size(); i++) {
+            Producto producTemp = (Producto) temp.getCarritoCompras().get(i);
+            System.out.println(producTemp.getDetalles().toString());
+            model.addElement(producTemp.getDetalles().toString());
         }
-        return flag;
-    }
-
-    private Boolean checkLoginSuccess(String cedula, String password) {
-        Boolean flag = false;
-
-        for (int i = 0; i < this.clientes.size(); i++) {
-            if (this.clientes.get(i).getCedula().equals(cedula) && this.clientes.get(i).getContra().equals(password)) {
-                flag = true;
-                this.usuarioActual = this.clientes.get(i);
-
-            }
-        }
-        return flag;
-    }
-
-    private Boolean checkLoginAdmin(String cedula, String password) {
-        Boolean flag = false;
-
-        if (this.admin.getCedula().equals(cedula) && this.admin.getContra().equals(password)) {
-            flag = true;
-
-        }
-
-        return flag;
     }
 
     /**
@@ -881,12 +1056,16 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JPanel carritoUsuario;
     private javax.swing.JTextField cedulaLogin;
     private javax.swing.JTextField cedulaRegistro;
+    private javax.swing.JButton compraButton;
+    private javax.swing.JList<String> comprasRealizadas;
     private javax.swing.JPasswordField contraLogin;
     private javax.swing.JPasswordField contraRegistro;
     private javax.swing.JTextArea detallesCompra;
+    private javax.swing.JList<String> detallesCompraRealizadas;
     private javax.swing.JTextField dirRegistro;
     private javax.swing.JButton eliminarProducto;
     private javax.swing.JButton facturarButton;
+    private javax.swing.JPanel historialCompras;
     private javax.swing.JPanel home;
     private javax.swing.JButton ingresarBtn;
     private javax.swing.JButton jButton1;
@@ -907,6 +1086,9 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -919,6 +1101,8 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JList<String> listaEmpresas;
     private javax.swing.JList<String> listaEmpresasAdmin;
     private javax.swing.JList<String> listaProductos;

@@ -26,18 +26,18 @@ public class Producto implements IProducto {
     private Integer cantidad;
     private String tipo;
     private Double costo;
-    private IEmpresa empresa;
+    private Empresa empresa;
 
     public Producto() {
         setProducto();
     }
 
-    private Producto(String nombre, String tipo, Double costo, IEmpresa empresa) {
+    private Producto(String nombre, String tipo, Double costo, Empresa empresa) {
         this.nombreProducto = nombre;
         this.tipo = tipo;
         this.costo = costo;
         this.empresa = empresa;
-        this.cantidad =0;
+        this.cantidad = 0;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Producto implements IProducto {
         return this.empresa;
     }
 
-    protected void agregarEmpresa(IEmpresa empresa) {
+    protected void agregarEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
 
@@ -164,7 +164,10 @@ public class Producto implements IProducto {
     public String getDetalles() {
 
         if (this.cantidad > 0) {
-            String detalles1 = "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
+            String detalles1 = "<html>" + "-------Datos empresa----- " + "<br/>"
+                    + this.empresa.getDescripcion()
+                    + "<html>" + "-------Datos producto----- " + "<br/>"
+                    + "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
                     + "<html>" + "Costo: " + this.costo + "<br/>"
                     + "<html>" + "Tipo: " + this.tipo + "<br/>"
                     + "<html>" + "Cantidad: " + this.cantidad + "<br/>";
@@ -178,7 +181,7 @@ public class Producto implements IProducto {
 
     }
 
-    public static ArrayList<IProducto> generatedProductsComidasRapida(IEmpresa empresa) {
+    public static ArrayList<IProducto> generatedProductsComidasRapida(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Hamburguesa", "Comida", 5000d, empresa);
         Producto p2 = new Producto("Taco", "Comida", 3000d, empresa);
@@ -201,7 +204,7 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
-    public static ArrayList<IProducto> generatedProductsRestaurante(IEmpresa empresa) {
+    public static ArrayList<IProducto> generatedProductsRestaurante(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Helado Frutas", "Comida", 5000d, empresa);
         Producto p2 = new Producto("Salchipapa", "Comida", 3000d, empresa);
@@ -224,7 +227,7 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
-    public static ArrayList<IProducto> generatedProductsSupermercado(IEmpresa empresa) {
+    public static ArrayList<IProducto> generatedProductsSupermercado(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Jabon", "Limpieza", 5000d, empresa);
         Producto p2 = new Producto("Shampoo", "Higiene", 3000d, empresa);
@@ -247,7 +250,7 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
-    public static ArrayList<IProducto> generatedProductsFarmacia(IEmpresa empresa) {
+    public static ArrayList<IProducto> generatedProductsFarmacia(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Acetaminofen", "Enfermedades", 5000d, empresa);
         Producto p2 = new Producto("Ibuprofeno", "Enfermedades", 3000d, empresa);
@@ -285,7 +288,5 @@ public class Producto implements IProducto {
     public Integer getCantidad() {
         return cantidad;
     }
-    
-    
 
 }

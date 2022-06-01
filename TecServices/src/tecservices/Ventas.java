@@ -1,26 +1,24 @@
-
 package tecservices;
 
 import java.util.ArrayList;
 
+public class Ventas implements IVenta {
 
-public class Ventas implements IVenta{
-    
-    	private Double montoTotal;
-	private Double montoSinImpuesto;
-	private Double Impuesto;
-	private Double costpEnvio;
-        private String detalleProductos;
-        private ArrayList<IProducto> carritoCompras;
+    private Double montoTotal;
+    private Double montoSinImpuesto;
+    private Double Impuesto;
+    private Double costpEnvio;
+    private String detalleProductos;
+    private ArrayList<IProducto> carritoCompras;
 
     @Override
     public void agregarProductos(IProducto producto) {
-      
+
     }
 
     @Override
     public void eliminarProducto(IProducto producto) {
-       
+
     }
 
     public Double getMontoTotal() {
@@ -70,10 +68,15 @@ public class Ventas implements IVenta{
     public void setCarritoCompras(ArrayList<IProducto> carritoCompras) {
         this.carritoCompras = carritoCompras;
     }
-        
-    
-    
-    
 
-    
+    public String obtenerInformacionCompras() {
+
+        String detalles
+                = "<html>" + "Monto Total: " + this.montoTotal + "<br/>"
+                + "<html>" + "Monto sin impuesto: " + this.montoSinImpuesto + "<br/>"
+                + "<html>" + "Impuesto: " + this.Impuesto + "<br/>"
+                + "<html>" + "Costo Envio: " + this.costpEnvio + "<br/>";
+        return detalles;
+
+    }
 }

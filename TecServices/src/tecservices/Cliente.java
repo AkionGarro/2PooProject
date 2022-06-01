@@ -59,4 +59,13 @@ public class Cliente {
         return carritoCompras;
     }
 
+    public void addComprasRealizada(IVenta comprasRealizadas) {
+        this.comprasRealizadas.add(comprasRealizadas);
+    }
+    public void clearCarrito(){
+        this.carritoCompras.clear();
+    }
+
+    
+    
 }
