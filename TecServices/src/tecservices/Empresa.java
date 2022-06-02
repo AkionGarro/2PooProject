@@ -14,6 +14,7 @@ public class Empresa implements IEmpresa {
     private String tipo;
     private Integer telefono;
     private ArrayList<IProducto> productosEmpresa;
+    private static Empresa instance = null;
 
     public Empresa() {
         this.nombre = "Happy Pub";
@@ -31,6 +32,13 @@ public class Empresa implements IEmpresa {
         this.tipo = tipo;
         this.telefono = telefono;
         productosEmpresa = new ArrayList<IProducto>();
+    }
+
+    public static Empresa getInstance() {
+        if (instance == null) {
+            instance = new Empresa();
+        }
+        return instance;
     }
 
     @Override
@@ -102,8 +110,7 @@ public class Empresa implements IEmpresa {
         empresasTemp.add(e2);
         empresasTemp.add(e3);
         empresasTemp.add(e4);
-        
-        
+
         return empresasTemp;
     }
 
