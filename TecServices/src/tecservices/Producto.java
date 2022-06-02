@@ -148,6 +148,7 @@ public class Producto implements IProducto {
             this.costo = Double.parseDouble(costoProductoField.getText());
             this.nombreProducto = nombreProductoField.getText();
             this.tipo = tipoProductoField.getText();
+            this.cantidad = 0;
 
             this.ventana.dispose();
 
@@ -288,5 +289,11 @@ public class Producto implements IProducto {
     public Integer getCantidad() {
         return cantidad;
     }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
+    }
+    
+    
 
 }

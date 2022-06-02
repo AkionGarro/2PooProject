@@ -41,6 +41,7 @@ public class Empresa implements IEmpresa {
     @Override
     public void addProducto() {
         Producto p1 = new Producto();
+        p1.setEmpresa(this);
         this.productosEmpresa.add(p1);
         p1.cleanFields();
 

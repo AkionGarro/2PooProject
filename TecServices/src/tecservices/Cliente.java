@@ -10,7 +10,7 @@ public class Cliente {
     private String direccion;
     private ArrayList<String> telefonos;
     private String contra;
-    private ArrayList<IVenta> comprasRealizadas;
+    private ArrayList<Ventas> comprasRealizadas;
     private ArrayList<IProducto> carritoCompras;
 
     public Cliente(String cedula, String nombre, String direccion, ArrayList<String> telefonos, String contra) {
@@ -19,7 +19,7 @@ public class Cliente {
         this.direccion = direccion;
         this.telefonos = telefonos;
         this.contra = contra;
-        this.comprasRealizadas = new ArrayList<IVenta>();
+        this.comprasRealizadas = new ArrayList<Ventas>();
         this.carritoCompras = new ArrayList<IProducto>();
     }
 
@@ -39,11 +39,11 @@ public class Cliente {
         return telefonos;
     }
 
-    public void agregarCompra(IVenta venta) {
+    public void agregarCompra(Ventas venta) {
         this.comprasRealizadas.add(venta);
     }
 
-    public ArrayList<IVenta> getComprasRealizadas() {
+    public ArrayList<Ventas> getComprasRealizadas() {
         return comprasRealizadas;
     }
 
@@ -59,7 +59,7 @@ public class Cliente {
         return carritoCompras;
     }
 
-    public void addComprasRealizada(IVenta comprasRealizadas) {
+    public void addComprasRealizada(Ventas comprasRealizadas) {
         this.comprasRealizadas.add(comprasRealizadas);
     }
     public void clearCarrito(){

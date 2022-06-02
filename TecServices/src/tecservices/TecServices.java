@@ -25,7 +25,10 @@ public class TecServices extends javax.swing.JFrame {
     private ArrayList<String> tempTels;
     private Cliente admin;
     private Cliente usuarioActual;
+    private ArrayList<IProducto> productTemp;
+
     private Ventas ventaTemp;
+
     Boolean flag = false;
 
     /**
@@ -300,12 +303,11 @@ public class TecServices extends javax.swing.JFrame {
         historialCompras = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        detallesCompraRealizadas = new javax.swing.JList<>();
         jLabel26 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         comprasRealizadas = new javax.swing.JList<>();
-        compraButton = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        productosVenta = new javax.swing.JList<>();
         adminPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listaEmpresasAdmin = new javax.swing.JList<>();
@@ -509,12 +511,6 @@ public class TecServices extends javax.swing.JFrame {
         });
         historialCompras.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 30, 30));
 
-        detallesCompraRealizadas.setBackground(new java.awt.Color(255, 255, 255));
-        detallesCompraRealizadas.setForeground(new java.awt.Color(0, 0, 0));
-        jScrollPane6.setViewportView(detallesCompraRealizadas);
-
-        historialCompras.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 310, 230));
-
         jLabel26.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(0, 0, 0));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -532,18 +528,11 @@ public class TecServices extends javax.swing.JFrame {
 
         historialCompras.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 310, 230));
 
-        compraButton.setText("Mostrar Detalles Compra");
-        compraButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                compraButtonMouseClicked(evt);
-            }
-        });
-        compraButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                compraButtonActionPerformed(evt);
-            }
-        });
-        historialCompras.add(compraButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 590, -1, -1));
+        productosVenta.setBackground(new java.awt.Color(255, 255, 255));
+        productosVenta.setForeground(new java.awt.Color(0, 0, 0));
+        jScrollPane8.setViewportView(productosVenta);
+
+        historialCompras.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 310, 280));
 
         getContentPane().add(historialCompras, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -929,9 +918,14 @@ public class TecServices extends javax.swing.JFrame {
 
     private void facturarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_facturarButtonMouseClicked
 
+        
+        this.productTemp = new ArrayList<IProducto>();
+        productTemp = (ArrayList<IProducto>)(usuarioActual.getCarritoCompras()).clone();
+        this.ventaTemp.setCarritoCompras(productTemp);
         this.usuarioActual.addComprasRealizada(this.ventaTemp);
-        this.usuarioActual.clearCarrito();
+        
         JOptionPane.showMessageDialog(null, "Registrado correctamente");
+        this.usuarioActual.clearCarrito();
         mostrarProductosCarrito();
 
     }//GEN-LAST:event_facturarButtonMouseClicked
@@ -941,7 +935,7 @@ public class TecServices extends javax.swing.JFrame {
         this.historialCompras.setEnabled(true);
         this.home.setVisible(false);
         this.home.setVisible(false);
-        this.usuarioActual.getComprasRealizadas();
+
         mostrarCompras();
 
     }//GEN-LAST:event_jLabel19MouseClicked
@@ -963,19 +957,8 @@ public class TecServices extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel25MouseClicked
 
     private void comprasRealizadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comprasRealizadasMouseClicked
-        int current = this.comprasRealizadas.getSelectedIndex();
-        mostrarDetallesCompra(current);
-
+        mostrarDetallesCompra();
     }//GEN-LAST:event_comprasRealizadasMouseClicked
-
-    private void compraButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_compraButtonActionPerformed
-
-    private void compraButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compraButtonMouseClicked
-        int current = this.comprasRealizadas.getSelectedIndex();
-        mostrarDetallesCompra(current);
-    }//GEN-LAST:event_compraButtonMouseClicked
 
     private void mostrarCompras() {
         DefaultListModel model = new DefaultListModel();
@@ -991,18 +974,19 @@ public class TecServices extends javax.swing.JFrame {
         }
     }
 
-    private void mostrarDetallesCompra(int current) {
+    private void mostrarDetallesCompra() {
+        Integer current = this.comprasRealizadas.getSelectedIndex();
         DefaultListModel model = new DefaultListModel();
-        this.detallesCompraRealizadas.setModel(model);
-        this.detallesCompraRealizadas.setFixedCellWidth(80);
-        this.detallesCompraRealizadas.setFixedCellHeight(80);
+        this.productosVenta.setModel(model);
+        this.productosVenta.setFixedCellWidth(200);
+        this.productosVenta.setFixedCellHeight(200);
 
-        Ventas temp = (Ventas) this.usuarioActual.getComprasRealizadas().get(current);
+        ArrayList<Ventas> compras = this.usuarioActual.getComprasRealizadas();
+        Ventas temp = compras.get(current);
+        for (int j = 0; j < temp.getCarritoCompras().size(); j++) {
+            Producto producTemp = (Producto) temp.getCarritoCompras().get(j);
 
-        for (int i = 0; i < temp.getCarritoCompras().size(); i++) {
-            Producto producTemp = (Producto) temp.getCarritoCompras().get(i);
-            System.out.println(producTemp.getDetalles().toString());
-            model.addElement(producTemp.getDetalles().toString());
+            model.addElement(producTemp.getDetalles());
         }
     }
 
@@ -1056,12 +1040,10 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JPanel carritoUsuario;
     private javax.swing.JTextField cedulaLogin;
     private javax.swing.JTextField cedulaRegistro;
-    private javax.swing.JButton compraButton;
     private javax.swing.JList<String> comprasRealizadas;
     private javax.swing.JPasswordField contraLogin;
     private javax.swing.JPasswordField contraRegistro;
     private javax.swing.JTextArea detallesCompra;
-    private javax.swing.JList<String> detallesCompraRealizadas;
     private javax.swing.JTextField dirRegistro;
     private javax.swing.JButton eliminarProducto;
     private javax.swing.JButton facturarButton;
@@ -1101,14 +1083,15 @@ public class TecServices extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JList<String> listaEmpresas;
     private javax.swing.JList<String> listaEmpresasAdmin;
     private javax.swing.JList<String> listaProductos;
     private javax.swing.JPanel login;
     private javax.swing.JLabel logoServices;
     private javax.swing.JTextField nombreRegistro;
+    private javax.swing.JList<String> productosVenta;
     private javax.swing.JPanel registro;
     private javax.swing.JButton registroBtn;
     private javax.swing.JTextField telefonoRegistro;
