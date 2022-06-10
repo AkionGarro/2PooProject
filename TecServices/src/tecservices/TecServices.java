@@ -4,6 +4,10 @@
  */
 package tecservices;
 
+import proyecto2.empresas.Empresa;
+import proyecto2.empresas.Producto;
+import proyecto2.interfaces.IProducto;
+import proyecto2.interfaces.IEmpresa;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -98,7 +102,7 @@ public class TecServices extends javax.swing.JFrame {
 
         for (int i = 0; i < this.empresas.size(); i++) {
             Empresa e1 = (Empresa) this.empresas.get(i);
-            model.addElement(e1.getDescripcion());
+            model.addElement(e1.getInformacion());
         }
     }
 
@@ -126,7 +130,7 @@ public class TecServices extends javax.swing.JFrame {
 
         for (int i = 0; i < this.empresas.size(); i++) {
             Empresa e1 = (Empresa) this.empresas.get(i);
-            model.addElement(e1.getDescripcion());
+            model.addElement(e1.getInformacion());
         }
     }
 

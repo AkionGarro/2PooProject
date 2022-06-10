@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package tecservices;
+package proyecto2.empresas;
 
+import proyecto2.interfaces.IProducto;
+import proyecto2.interfaces.IEmpresa;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -166,7 +168,7 @@ public class Producto implements IProducto {
 
         if (this.cantidad > 0) {
             String detalles1 = "<html>" + "-------Datos empresa----- " + "<br/>"
-                    + this.empresa.getDescripcion()
+                    + this.empresa.getInformacion()
                     + "<html>" + "-------Datos producto----- " + "<br/>"
                     + "<html>" + "Nombre Producto: " + this.nombreProducto + "<br/>"
                     + "<html>" + "Costo: " + this.costo + "<br/>"

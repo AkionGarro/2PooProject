@@ -1,5 +1,7 @@
 package tecservices;
 
+import proyecto2.interfaces.IVenta;
+import proyecto2.interfaces.IProducto;
 import java.util.ArrayList;
 
 public class Ventas implements IVenta {

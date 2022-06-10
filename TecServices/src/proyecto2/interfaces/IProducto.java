@@ -1,7 +1,7 @@
-package tecservices;
+package proyecto2.interfaces;
 
 
-import tecservices.IEmpresa;
+import proyecto2.interfaces.IEmpresa;
 
 
 /**

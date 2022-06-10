@@ -1,5 +1,6 @@
 package tecservices;
 
+import proyecto2.interfaces.IProducto;
 import java.util.ArrayList;
 import java.util.Arrays;
 

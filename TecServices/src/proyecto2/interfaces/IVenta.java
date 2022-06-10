@@ -1,4 +1,4 @@
-package tecservices;
+package proyecto2.interfaces;
 
 
 public interface IVenta

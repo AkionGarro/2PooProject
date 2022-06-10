@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package tecservices;
+package proyecto2.empresas;
 
+import proyecto2.interfaces.IProducto;
+import proyecto2.interfaces.IEmpresa;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -55,10 +57,7 @@ public class Empresa implements IEmpresa {
 
     }
 
-    @Override
-    public void getInformacion() {
 
-    }
 
     public String getNombre() {
         return nombre;
@@ -84,7 +83,8 @@ public class Empresa implements IEmpresa {
         this.productosEmpresa = productosEmpresa;
     }
 
-    public String getDescripcion() {
+    @Override
+    public String getInformacion() {
         String dsc = "<html>" + "Nombre: " + this.nombre + "<br/>"
                 + "<html>" + "Dirección: " + this.direccion + "<br/>"
                 + "<html>" + "Tipo: " + this.tipo + "<br/>"
