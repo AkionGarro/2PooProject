@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
+ * Sistema de ventas
  *
  * @author garroakion
  */
@@ -47,7 +48,7 @@ public class TecServices extends javax.swing.JFrame {
         initComponents();
         configComponentes();
         //this.empresas = Empresa.getEmpresasGeneradas();
-        Empresa e1 = Empresa.getInstance();        
+        Empresa e1 = Empresa.getInstance();
         this.empresas.add(e1);
         mostrarEmpresas();
 
@@ -63,6 +64,9 @@ public class TecServices extends javax.swing.JFrame {
         clientes.add(akion);
     }
 
+    /**
+     * Asginar admin
+     */
     private void setAdmin() {
         ArrayList<String> telAdmin = new ArrayList<String>();
         telAdmin.add("85045830");
@@ -85,11 +89,7 @@ public class TecServices extends javax.swing.JFrame {
         this.historialCompras.setEnabled(false);
     }
 
-    /**
-     * ------------------------------------------Utilidades------------------------------------
-     * ----------------------------------------------------------------------------------------
-     * ----------------------------------------------------------------------------------------
-     */
+    /* ------------------------------------------Utilidades------------------------------------*/
     /**
      * Mostrar todas las empresas disponibles, de manera grafica.
      */
@@ -272,6 +272,42 @@ public class TecServices extends javax.swing.JFrame {
             flag = true;
         }
         return flag;
+    }
+
+    /**
+     * Mostrar comprar realizadas por un usuario
+     */
+    private void mostrarCompras() {
+        DefaultListModel model = new DefaultListModel();
+        this.comprasRealizadas.setModel(model);
+        comprasRealizadas.setFixedCellWidth(80);
+        comprasRealizadas.setFixedCellHeight(80);
+
+        for (int i = 0; i < this.usuarioActual.getComprasRealizadas().size(); i++) {
+
+            Ventas v = new Ventas();
+            v = (Ventas) this.usuarioActual.getComprasRealizadas().get(i);
+            model.addElement(v.obtenerInformacionCompras());
+        }
+    }
+
+    /**
+     * Mostrar los detalles de la compra actual
+     */
+    private void mostrarDetallesCompra() {
+        Integer current = this.comprasRealizadas.getSelectedIndex();
+        DefaultListModel model = new DefaultListModel();
+        this.productosVenta.setModel(model);
+        this.productosVenta.setFixedCellWidth(200);
+        this.productosVenta.setFixedCellHeight(200);
+
+        ArrayList<Ventas> compras = this.usuarioActual.getComprasRealizadas();
+        Ventas temp = compras.get(current);
+        for (int j = 0; j < temp.getCarritoCompras().size(); j++) {
+            Producto producTemp = (Producto) temp.getCarritoCompras().get(j);
+
+            model.addElement(producTemp.getDetalles());
+        }
     }
 
     /**
@@ -924,12 +960,11 @@ public class TecServices extends javax.swing.JFrame {
 
     private void facturarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_facturarButtonMouseClicked
 
-        
         this.productTemp = new ArrayList<IProducto>();
-        productTemp = (ArrayList<IProducto>)(usuarioActual.getCarritoCompras()).clone();
+        productTemp = (ArrayList<IProducto>) (usuarioActual.getCarritoCompras()).clone();
         this.ventaTemp.setCarritoCompras(productTemp);
         this.usuarioActual.addComprasRealizada(this.ventaTemp);
-        
+
         JOptionPane.showMessageDialog(null, "Registrado correctamente");
         this.usuarioActual.clearCarrito();
         mostrarProductosCarrito();
@@ -965,36 +1000,6 @@ public class TecServices extends javax.swing.JFrame {
     private void comprasRealizadasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comprasRealizadasMouseClicked
         mostrarDetallesCompra();
     }//GEN-LAST:event_comprasRealizadasMouseClicked
-
-    private void mostrarCompras() {
-        DefaultListModel model = new DefaultListModel();
-        this.comprasRealizadas.setModel(model);
-        comprasRealizadas.setFixedCellWidth(80);
-        comprasRealizadas.setFixedCellHeight(80);
-
-        for (int i = 0; i < this.usuarioActual.getComprasRealizadas().size(); i++) {
-
-            Ventas v = new Ventas();
-            v = (Ventas) this.usuarioActual.getComprasRealizadas().get(i);
-            model.addElement(v.obtenerInformacionCompras());
-        }
-    }
-
-    private void mostrarDetallesCompra() {
-        Integer current = this.comprasRealizadas.getSelectedIndex();
-        DefaultListModel model = new DefaultListModel();
-        this.productosVenta.setModel(model);
-        this.productosVenta.setFixedCellWidth(200);
-        this.productosVenta.setFixedCellHeight(200);
-
-        ArrayList<Ventas> compras = this.usuarioActual.getComprasRealizadas();
-        Ventas temp = compras.get(current);
-        for (int j = 0; j < temp.getCarritoCompras().size(); j++) {
-            Producto producTemp = (Producto) temp.getCarritoCompras().get(j);
-
-            model.addElement(producTemp.getDetalles());
-        }
-    }
 
     /**
      * @param args the command line arguments

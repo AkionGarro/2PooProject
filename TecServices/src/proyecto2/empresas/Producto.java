@@ -11,6 +11,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**
+ * Clase Producto
+ *
+ * @author garroakion
+ */
 public class Producto implements IProducto {
 
     private JFrame ventana;
@@ -31,10 +36,22 @@ public class Producto implements IProducto {
     private Empresa empresa;
     private static Producto instance = null;
 
+    /**
+     * Constructor de la clase para el Singleton Se inicia la ventana de agregar
+     * producto
+     */
     private Producto() {
         setProducto();
     }
 
+    /**
+     * Constructor para agilizar la implementacion de productos
+     *
+     * @param nombre Valor que se va a asignar al nombre
+     * @param tipo Valor que se va a asignar al tipo
+     * @param costo Valor que se va a asignar al costo
+     * @param empresa Valor que se va a asignar a la empresa
+     */
     private Producto(String nombre, String tipo, Double costo, Empresa empresa) {
         this.nombreProducto = nombre;
         this.tipo = tipo;
@@ -43,6 +60,11 @@ public class Producto implements IProducto {
         this.cantidad = 0;
     }
 
+    /**
+     * Obtener la instancia del objeto del producto
+     *
+     * @return instance del producto
+     */
     public static Producto getInstance() {
         if (instance == null) {
             instance = new Producto();
@@ -50,21 +72,39 @@ public class Producto implements IProducto {
         return instance;
     }
 
+    /**
+     * Obtiene el costo del producto
+     *
+     * @return costo
+     */
     @Override
     public double getCosto() {
         return this.costo;
 
     }
 
+    /**
+     * Obtiene la empresa a la que pertenece el producto
+     *
+     * @return empresa
+     */
     @Override
     public IEmpresa getEmpresa() {
         return this.empresa;
     }
 
+    /**
+     * Vincula la empresa al producto
+     *
+     * @param empresa
+     */
     protected void agregarEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
 
+    /**
+     * Conguracion de los componentes graficos
+     */
     private void configComponents() {
         ventana = new JFrame();
         ventana.setVisible(true);
@@ -144,11 +184,19 @@ public class Producto implements IProducto {
         ventana.pack();
     }
 
+    /**
+     * Metodo para abrir la ventana y crear nuevo producto
+     */
     @Override
     public void setProducto() {
         configComponents();
     }
 
+    /**
+     * Comprobacion de los campos y registro del producto
+     *
+     * @param evt
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         if (costoProductoField.getText().equals("") || nombreProductoField.getText().equals("") || tipoProductoField.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Campos vacios");
@@ -165,12 +213,20 @@ public class Producto implements IProducto {
         }
     }
 
+    /**
+     * Limpiar campos de texto
+     */
     public void cleanFields() {
         this.costoProductoField.setText("");
         nombreProductoField.setText("");
         tipoProductoField.setText("");
     }
 
+    /**
+     * Obtiene los detalles del producto, formateado para agregarlo a un JList
+     *
+     * @return Todos los detalles del producto
+     */
     @Override
     public String getDetalles() {
 
@@ -192,6 +248,12 @@ public class Producto implements IProducto {
 
     }
 
+    /**
+     * Metodo para agregar productos generados a una empresa
+     *
+     * @param empresa Empresa a la que se le van a agregar
+     * @return Lista con productos
+     */
     public static ArrayList<IProducto> generatedProductsComidasRapida(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Hamburguesa", "Comida", 5000d, empresa);
@@ -215,6 +277,12 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
+    /**
+     * Metodo para agregar productos generados a una empresa
+     *
+     * @param empresa Empresa a la que se le van a agregar
+     * @return Lista con productos
+     */
     public static ArrayList<IProducto> generatedProductsRestaurante(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Helado Frutas", "Comida", 5000d, empresa);
@@ -238,6 +306,12 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
+    /**
+     * Metodo para agregar productos generados a una empresa
+     *
+     * @param empresa Empresa a la que se le van a agregar
+     * @return Lista con productos
+     */
     public static ArrayList<IProducto> generatedProductsSupermercado(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Jabon", "Limpieza", 5000d, empresa);
@@ -261,6 +335,12 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
+    /**
+     * Metodo para agregar productos generados a una empresa
+     *
+     * @param empresa Empresa a la que se le van a agregar
+     * @return Lista con productos
+     */
     public static ArrayList<IProducto> generatedProductsFarmacia(Empresa empresa) {
         ArrayList<IProducto> productosIniciales = new ArrayList<IProducto>();
         Producto p1 = new Producto("Acetaminofen", "Enfermedades", 5000d, empresa);
@@ -284,22 +364,42 @@ public class Producto implements IProducto {
         return productosIniciales;
     }
 
+    /**
+     * Asignar el nombre del producto
+     * @param nombreProducto
+     */
     public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
 
+    /**
+     * Asignar la cantidad de productos
+     * @param cantidad
+     */
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
+    /**
+     * Asginar tipo de producto
+     * @param tipo
+     */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     * Obtener la cantidad de productos
+     * @return
+     */
     public Integer getCantidad() {
         return cantidad;
     }
 
+    /**
+     * Asignar la empresa
+     * @param empresa
+     */
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
