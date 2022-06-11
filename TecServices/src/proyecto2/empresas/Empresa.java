@@ -18,7 +18,7 @@ public class Empresa implements IEmpresa {
     private ArrayList<IProducto> productosEmpresa;
     private static Empresa instance = null;
 
-    public Empresa() {
+    private Empresa() {
         this.nombre = "Happy Pub";
         this.direccion = "Frente al tec";
         this.tipo = "Restaurante";
@@ -50,7 +50,7 @@ public class Empresa implements IEmpresa {
 
     @Override
     public void addProducto() {
-        Producto p1 = new Producto();
+        Producto p1 = Producto.getInstance();
         p1.setEmpresa(this);
         this.productosEmpresa.add(p1);
         p1.cleanFields();

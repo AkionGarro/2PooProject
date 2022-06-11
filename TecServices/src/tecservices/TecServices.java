@@ -47,9 +47,8 @@ public class TecServices extends javax.swing.JFrame {
         initComponents();
         configComponentes();
         //this.empresas = Empresa.getEmpresasGeneradas();
-        Empresa e1 = Empresa.getInstance();
+        Empresa e1 = Empresa.getInstance();        
         this.empresas.add(e1);
-       
         mostrarEmpresas();
 
     }

@@ -29,8 +29,9 @@ public class Producto implements IProducto {
     private String tipo;
     private Double costo;
     private Empresa empresa;
+    private static Producto instance = null;
 
-    public Producto() {
+    private Producto() {
         setProducto();
     }
 
@@ -40,6 +41,13 @@ public class Producto implements IProducto {
         this.costo = costo;
         this.empresa = empresa;
         this.cantidad = 0;
+    }
+
+    public static Producto getInstance() {
+        if (instance == null) {
+            instance = new Producto();
+        }
+        return instance;
     }
 
     @Override
@@ -295,7 +303,5 @@ public class Producto implements IProducto {
     public void setEmpresa(Empresa empresa) {
         this.empresa = empresa;
     }
-    
-    
 
 }
